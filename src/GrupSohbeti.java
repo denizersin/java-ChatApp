@@ -4,14 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GrupSohbeti extends  Sohbet{
+
     String grupIsmi;
     //default olarak grupRolleriMapi.put(yaraticiID,yaratici(Kullanici).rol);
     HashMap<Integer,String> grupRolleriMapi;
-    HashMap<Integer,Kullanici> kullanicilarMapi;
+    HashMap<Integer,Kullanici> kullanicilarMapi=ChatApp.kullanicilarMapi;
     GrupSohbeti(Kullanici kullanici){
-    super();
-    grupRolleriMapi=new HashMap<Integer,String>();
-
+        //kullanici=yonetici
+        super();
+        grupRolleriMapi=new HashMap<Integer,String>();
+        this.id=Main.benzersizIdGetir2(ChatApp.grupSohbetiHashMapi,ChatApp.bireyselSohbetHashMapi);
+         String grupIsmi;
+        grupIsmi=Main.scan.next();
+        ChatApp.grupSohbetiHashMapi.put(this.id,this);
+        this.grupIsmi=grupIsmi;
+        this.grupRolleriMapi.put(kullanici.id,"yonetici");
+        this.sohbetUyeleri.put(kullanici.id,kullanici);
     }
 
 
@@ -120,7 +128,9 @@ public class GrupSohbeti extends  Sohbet{
         izinYokUyarisi();
     }
 
-    void sohbetOnizle(){
+    void sohbetOnizle(Kullanici kullanici){
+        this.kullanici=kullanici;
+
         System.out.println("wqeqwe");
         System.out.print("id:"+this.id+"[");
         System.out.print(this.grupIsmi);
@@ -128,14 +138,13 @@ public class GrupSohbeti extends  Sohbet{
             System.out.println("mesaj yok");
             return;
         }
-        System.out.println("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].mesaj));
+        System.out.println("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik()));
         System.out.println(" ----okunmamis mesaj sayisi:" +
                 ""+kullanici.bildirimlerMapi.get(this.id));
 
     }
 
-    void sohbeteGir(Kullanici kullanici,HashMap<Integer,Kullanici> kullanicilarMapi){
-        this.kullanicilarMapi=kullanicilarMapi;
+    void sohbeteGir(Kullanici kullanici){
         this.kullanici=kullanici;
         okunduOlarakIsaretle();
 
@@ -155,7 +164,7 @@ public class GrupSohbeti extends  Sohbet{
             if(secim==1) {
                 String mesaj = "";
                 int secim2 = 0;
-                mesajGondermeISlemi();
+                gondermeMenusu();
             }
             else if(secim==2){
                 secenekleriListele();
