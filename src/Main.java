@@ -12,10 +12,16 @@ public class Main {
         }
         return 0;
     }
+
+    //bireysel ve grup sohbet idleri cakismasin diye yazilidi.
     public static int benzersizIdGetir2(Map map1,Map map2){
         // parametre: HashMap <int,any>
+
         for (int i=0;i<99999;i++){
+            System.out.println(map1.containsKey(i));
+            System.out.println(map2.containsKey(i));
             if(!map1.containsKey(i)&&!map2.containsKey(i)){
+                System.out.println(i);
                 return i;
             }
         }

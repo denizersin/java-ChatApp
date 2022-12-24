@@ -5,18 +5,13 @@ import java.util.Map;
 
 public class GrupSohbeti extends  Sohbet{
     String grupIsmi;
-    Kullanici kullanici;
     //default olarak grupRolleriMapi.put(yaraticiID,yaratici(Kullanici).rol);
     HashMap<Integer,String> grupRolleriMapi;
     HashMap<Integer,Kullanici> kullanicilarMapi;
     GrupSohbeti(Kullanici kullanici){
     super();
-
-//    this.yonetici=kullanici;
-//    this.yonetici.rolBelirle("yonetici");
-//    this.grupRolleriMapi.put(yonetici.id,yonetici.rol);
-
     grupRolleriMapi=new HashMap<Integer,String>();
+
     }
 
 
@@ -57,9 +52,9 @@ public class GrupSohbeti extends  Sohbet{
         if(Arrays.asList(kullanici.izinler).contains("uye-ekle")){
             System.out.println("yapabilir");
             System.out.println("eklenecek uye id");
-            int id=Main.scan.nextInt();
-            sohbetUyeleri.put(id,kullanicilarMapi.get(id));
-            grupRolleriMapi.put(id,"normal-uye");
+            int kId=Main.scan.nextInt();
+            sohbetUyeleri.put(kId,kullanicilarMapi.get(kId));
+            grupRolleriMapi.put(kId,"normal-uye");
             return;
         }
         izinYokUyarisi();
@@ -68,6 +63,16 @@ public class GrupSohbeti extends  Sohbet{
     void uyeSil(){
         if(Arrays.asList(kullanici.izinler).contains("uye-sil")){
             System.out.println("yapabilir");
+            int secim=-1;
+            System.out.print("id gir:");
+            secim=Main.scan.nextInt();
+            if(sohbetUyeleri.containsKey(secim)){
+                sohbetUyeleri.remove(secim);
+            }
+            else {
+                System.out.println("bu kullanici uye degil");
+                uyeSil();
+            }
             return;
         }
         izinYokUyarisi();
@@ -88,6 +93,21 @@ public class GrupSohbeti extends  Sohbet{
     void rolAta(){
         if(Arrays.asList(kullanici.izinler).contains("rol-ata")){
             System.out.println("yapabilir");
+            int kId=-1;
+            System.out.print("rol atancak k id:");
+            kId=Main.scan.nextInt();
+            if(sohbetUyeleri.containsKey(kId)){
+                String atanacakRol="";
+                System.out.print("atanacak rolu gi (1.yonetici,2.moderator,3.normal-uye");
+                atanacakRol=Main.scan.next();
+                grupRolleriMapi.put(kId,atanacakRol);
+                System.out.println(grupRolleriMapi.get(kId));
+                System.out.println(kId+"idli kisiye "+atanacakRol+"rolu atandi");
+            }
+            else {
+                System.out.println("boyle bir uye yok");
+                rolAta();
+            }
             return;
         }
         izinYokUyarisi();
@@ -100,7 +120,6 @@ public class GrupSohbeti extends  Sohbet{
         izinYokUyarisi();
     }
 
-    @Override
     void sohbetOnizle(){
         System.out.println("wqeqwe");
         System.out.print("id:"+this.id+"[");
@@ -109,31 +128,34 @@ public class GrupSohbeti extends  Sohbet{
             System.out.println("mesaj yok");
             return;
         }
-        System.out.print("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1]));
-
+        System.out.println("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].mesaj));
+        System.out.println(" ----okunmamis mesaj sayisi:" +
+                ""+kullanici.bildirimlerMapi.get(this.id));
 
     }
-    void mesajGonder(String mesaj){
-        Mesaj msj=new Mesaj();
-        msj.mesaj=mesaj;
-    }
+
     void sohbeteGir(Kullanici kullanici,HashMap<Integer,Kullanici> kullanicilarMapi){
         this.kullanicilarMapi=kullanicilarMapi;
-
         this.kullanici=kullanici;
-        System.out.println("");
+        okunduOlarakIsaretle();
+
         kullanici.rolBelirle(grupRolleriMapi.get(kullanici.id));
+        System.out.println(kullanici.rol+"sadljasdja");;
+
+
 
         int secim;
         while (true){
             mesajlariListele();
             System.out.println("mesaj gondermek icin 1");
             System.out.println("secenekleri gormek icin 2");
-            System.out.println("secenekleri gormek icin 3");
+            System.out.println("uyeleri gormek icin 3");
             System.out.println("cikmak 0");
             secim=Main.scan.nextInt();
-            if(secim==1){
-                //mesaj gonderme
+            if(secim==1) {
+                String mesaj = "";
+                int secim2 = 0;
+                mesajGondermeISlemi();
             }
             else if(secim==2){
                 secenekleriListele();

@@ -62,16 +62,11 @@ public class ChatApp {
             bireyselSohbetOlustur();
             return;
         }
-        //kullanicilarin hepsi listelenir ve kullanicidan sohbet
         // baslatmak istedigi kisinin id'si alinit
 
         Kullanici ikinciKullanici=kullanicilarMapi.get(ikinciKullaniciId);
-
         BireyselSohbet sohbet1=new BireyselSohbet(kullanici,ikinciKullanici);
         sohbet1.id=Main.benzersizIdGetir2(bireyselSohbetHashMapi,grupSohbetiHashMapi);
-        sohbet1.sohbetUyeleri.put(kullanici.id,kullanici);
-        sohbet1.sohbetUyeleri.put(ikinciKullanici.id,ikinciKullanici);
-
         bireyselSohbetHashMapi.put(sohbet1.id,sohbet1);
     }
     void grupSohbetOlustur(){
@@ -152,6 +147,7 @@ public class ChatApp {
        String grupIsmi;
        grupIsmi=Main.scan.next();
        GrupSohbeti g=new GrupSohbeti(kullanici);
+       g.id=newId;
        grupSohbetiHashMapi.put(newId,g);
        g.grupIsmi=grupIsmi;
        g.grupRolleriMapi.put(kullanici.id,"yonetici");
