@@ -1,52 +1,78 @@
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ChatApp {
     //id=>Kullanici
-    static HashMap<Integer,Kullanici> kullanicilarMapi;
-    static HashMap<Integer ,BireyselSohbet> bireyselSohbetHashMapi;
-    static HashMap<Integer ,GrupSohbeti> grupSohbetiHashMapi;
 
+    static Database db;
 
-    Kullanici kullanici;
-
+   private Kullanici kullanici;
 
     ChatApp(){
-        kullanicilarMapi=new HashMap<Integer,Kullanici>();
-        bireyselSohbetHashMapi=new HashMap<Integer,BireyselSohbet>();
-        grupSohbetiHashMapi=new HashMap<Integer,GrupSohbeti>();
-
+        db=new Database();
         uyeOl("ersin","e","1"); //id =0;
         uyeOl("burak","b","1"); //id =1;
         uyeOl("ipek","i","1"); //id =2;
         uyeOl("ahmet","a","1"); //id =3;
 
-
-        girisYap();
+        girisYapMenusu();
 
     }
     void uyeOl(String isim,String kAdi,String sifre){
         //kAdi alinabilir mi?
-        Kullanici yeniKullanici=new Kullanici(Main.benzersizIdGetir(kullanicilarMapi),isim,kAdi,sifre);
-        kullanicilarMapi.put(yeniKullanici.id,yeniKullanici);
+        Kullanici yeniKullanici=new Kullanici(Main.benzersizIdGetir(Database.kullanicilarMapi),isim,kAdi,sifre);
+        db.kullaniciEkle(yeniKullanici);
     }
-    void girisYap(){
-        String sifre;
-        int kId;
-        System.out.print("kId:");
-        kId=Main.scan.nextInt();
+    void girisYapMenusu(){
+        System.out.print("k.adi veye id:");
+        String kAdiId=Main.scan.next();
         System.out.print("sifre:");
-        sifre=Main.scan.next();
-        if(kullanicilarMapi.containsKey(kId)&&kullanicilarMapi.get(kId).sifre.equals(sifre)){
-            kullanici=kullanicilarMapi.get(kId);
+        String sifre=Main.scan.next();
+
+        Pattern p = Pattern.compile("([0-9])");
+        Matcher m = p.matcher(kAdiId);
+        if(!m.find()){ //sayi yoksa
+            girisYap(kAdiId,sifre);
+            //kAdi
+        }
+        else {
+            //sayi varsa id
+            int id=Integer.parseInt(kAdiId);
+            girisYap(id,sifre);
+        }
+    }
+
+    //overLoading
+    void girisYap(int id,String sifre){
+        System.out.println("id");
+        if(Database.kullanicilarMapi.containsKey(id)&&Database.kullanicilarMapi.get(id).getSifre().equals(sifre)){
+            kullanici=Database.kullanicilarMapi.get(id);
             uygulamaDongusu();
         }
         else {
             System.err.println("tekrar gir");
-            girisYap();
+            girisYapMenusu();
         }
+    }
+    void girisYap(String kAdi,String sifre){
+        System.out.println("kAdi");
+        for (Map.Entry<Integer, Kullanici> set :
+                Database.kullanicilarMapi.entrySet()) {
+                int id=set.getKey();
+                Kullanici k=set.getValue();
+                if(k.getKullaniciAdi().equals(kAdi)&&k.getSifre().equals(sifre)){
+                    //k giris yapar
+                    kullanici=k;
+                    uygulamaDongusu();
+                    return;
+                }
+        }
+        System.out.println("boyle bir kullanici yok");
+        girisYapMenusu();
     }
     void bireyselSohbetOlustur(){
         new BireyselSohbet(kullanici);
@@ -55,11 +81,11 @@ public class ChatApp {
         new GrupSohbeti(kullanici); //kullanici=yonetici
     }
     void kullaniciSohbetleriGoster(){
-        Map<Integer, BireyselSohbet> kullaniciBireyselSohbetler = bireyselSohbetHashMapi.entrySet().stream()
+        Map<Integer, BireyselSohbet> kullaniciBireyselSohbetler = Database.bireyselSohbetHashMapi.entrySet().stream()
                 .filter(x -> x.getValue().sohbetUyeleri.containsKey(kullanici.id))
                 .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
 
-        Map<Integer, GrupSohbeti> kullaniciGrupSohbetler = grupSohbetiHashMapi.entrySet().stream()
+        Map<Integer, GrupSohbeti> kullaniciGrupSohbetler = Database.grupSohbetiHashMapi.entrySet().stream()
                 .filter(x -> x.getValue().sohbetUyeleri.containsKey(kullanici.id))
                 .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
 
@@ -69,11 +95,11 @@ public class ChatApp {
         System.out.println("sohbet id giriniz");
         System.out.println("cikmak icin -1");
         shobetId=Main.scan.nextInt();
-        if(bireyselSohbetHashMapi.containsKey(shobetId)){
-            bireyselSohbetHashMapi.get(shobetId).sohbeteGir(kullanici);
+        if(Database.bireyselSohbetHashMapi.containsKey(shobetId)){
+            Database.bireyselSohbetHashMapi.get(shobetId).sohbeteGir(kullanici);
         }
-        else if(grupSohbetiHashMapi.containsKey(shobetId)){
-            grupSohbetiHashMapi.get(shobetId).sohbeteGir(kullanici);
+        else if(Database.grupSohbetiHashMapi.containsKey(shobetId)){
+            Database.grupSohbetiHashMapi.get(shobetId).sohbeteGir(kullanici);
         }
         else if(shobetId==-1){
             return;
@@ -89,14 +115,14 @@ public class ChatApp {
 
     static void kullanicilariListele(){
         for (Map.Entry<Integer, Kullanici> set :
-                kullanicilarMapi.entrySet()) {
+                Database.kullanicilarMapi.entrySet()) {
             Kullanici k=set.getValue();
             System.out.println("["+k.id+"]"+k.isim);
         }
     }
 
     void uygulamaDongusu(){
-        int secim=-1;
+         String secim="";
         while (true){
             for (int i = 0; i < 50; ++i) System.out.println();
 
@@ -104,23 +130,23 @@ public class ChatApp {
             System.out.println("sohbet olustur 2");
             System.out.println("grup olustur 3");
             System.out.println("tekrar giris yap 4");
-            secim=Main.scan.nextInt();
-            if(secim==0){
+            secim=Main.scan.next();
+            if(secim.equals("0")){
 
             }
-            else if(secim==1){
+            else if(secim.equals("1")){
                 kullaniciSohbetleriGoster();
             }
-            else if(secim==2){
+            else if(secim.equals("2")){
                 bireyselSohbetOlustur();
             }
-            else if(secim==3){
+            else if(secim.equals("3")){
                 grupSOhbetiOlustur();
             }
-            else if(secim==4){
-                girisYap();
+            else if(secim.equals("4")){
+                girisYapMenusu();
             }
-            else {
+            else if(!Main.beklenmeyenDurumSorgula(secim)){
 
             }
             //Bildirimleri goster 1 ana menu?
@@ -130,6 +156,31 @@ public class ChatApp {
         }
     }
 
-
+    //Inner Class
+    class Database{
+        static HashMap<Integer,Kullanici> kullanicilarMapi;
+        static HashMap<Integer ,BireyselSohbet> bireyselSohbetHashMapi;
+        static HashMap<Integer ,GrupSohbeti> grupSohbetiHashMapi;
+        Database(){
+            kullanicilarMapi=new HashMap<Integer,Kullanici>();
+            bireyselSohbetHashMapi=new HashMap<Integer,BireyselSohbet>();
+            grupSohbetiHashMapi=new HashMap<Integer,GrupSohbeti>();
+        }
+        Kullanici getKullaniciById(int id){
+            return kullanicilarMapi.get(id);
+        }
+        void bireyselSohbetEkl(BireyselSohbet sohbet){
+            bireyselSohbetHashMapi.put(sohbet.id,sohbet);
+        }
+        void grupSohbetiEkle(GrupSohbeti sohbet){
+            grupSohbetiHashMapi.put(sohbet.id,sohbet);
+        }
+        boolean kullaniciSorguluaById(int id){
+            return kullanicilarMapi.containsKey(id);
+        }
+        void kullaniciEkle(Kullanici k){
+            kullanicilarMapi.put(k.id,k);
+        }
+    }
 }
 

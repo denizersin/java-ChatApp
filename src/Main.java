@@ -1,6 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static int benzersizIdGetir(Map map){
@@ -11,6 +14,18 @@ public class Main {
             }
         }
         return 0;
+    }
+    public static boolean beklenmeyenDurumSorgula(String girilenDeger){
+        Pattern p = Pattern.compile("([0-9])");
+        Matcher m = p.matcher(girilenDeger);
+        try {
+            Integer.parseInt(girilenDeger);
+            return true;
+        }
+        catch (Exception e){
+            System.out.println("lutfen sayi girin");
+            return false;
+        }
     }
 
     //bireysel ve grup sohbet idleri cakismasin diye yazilidi.
@@ -27,6 +42,6 @@ public class Main {
     }
     static Scanner scan=new Scanner(System.in);
     public static void main(String[] args) {
-        ChatApp Uygulama=new ChatApp();
+        ChatApp uygulama=new ChatApp();
     }
 }

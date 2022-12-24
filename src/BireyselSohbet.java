@@ -9,19 +9,20 @@ public class BireyselSohbet extends Sohbet{
             System.out.print("olusturulacak sohbet id'si gir:");
             int ikinciKullaniciId = -1;
             ikinciKullaniciId = Main.scan.nextInt();
-            if (!ChatApp.kullanicilarMapi.containsKey(ikinciKullaniciId)) {
+            if (!ChatApp.db.kullaniciSorguluaById(ikinciKullaniciId)) {
                 System.out.println("boyle bir id yok");
                 continue;
             }
-            this.id = Main.benzersizIdGetir2(ChatApp.bireyselSohbetHashMapi, ChatApp.grupSohbetiHashMapi);
-            Kullanici k2 = ChatApp.kullanicilarMapi.get(ikinciKullaniciId);
-            ChatApp.bireyselSohbetHashMapi.put(this.id, this);
+            this.id = Main.benzersizIdGetir2(ChatApp.db.bireyselSohbetHashMapi, ChatApp.db.grupSohbetiHashMapi);
+            Kullanici k2 = ChatApp.db.kullanicilarMapi.get(ikinciKullaniciId);
+            ChatApp.db.bireyselSohbetEkl(this);
             sohbetUyeleri.put(k1.id, k1);
             sohbetUyeleri.put(k2.id, k2);
             break;
         }
     }
 
+    @Override
     void sohbetOnizle(Kullanici kullanici){
         this.kullanici=kullanici;
         System.out.print("id:"+this.id+"[");
@@ -35,7 +36,6 @@ public class BireyselSohbet extends Sohbet{
         System.out.println(" ----okunmamis mesaj sayisi:" +
                 ""+kullanici.bildirimlerMapi.get(this.id));
     }
-
     void sohbeteGir(Kullanici kullanici){
         this.kullanici=kullanici;
         okunduOlarakIsaretle();
@@ -44,5 +44,6 @@ public class BireyselSohbet extends Sohbet{
         //sonsuz dongu..
         gondermeMenusu();
     }
+
 
 }

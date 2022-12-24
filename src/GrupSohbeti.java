@@ -8,15 +8,15 @@ public class GrupSohbeti extends  Sohbet{
     String grupIsmi;
     //default olarak grupRolleriMapi.put(yaraticiID,yaratici(Kullanici).rol);
     HashMap<Integer,String> grupRolleriMapi;
-    HashMap<Integer,Kullanici> kullanicilarMapi=ChatApp.kullanicilarMapi;
+    HashMap<Integer,Kullanici> kullanicilarMapi=ChatApp.db.kullanicilarMapi;
     GrupSohbeti(Kullanici kullanici){
         //kullanici=yonetici
         super();
         grupRolleriMapi=new HashMap<Integer,String>();
-        this.id=Main.benzersizIdGetir2(ChatApp.grupSohbetiHashMapi,ChatApp.bireyselSohbetHashMapi);
+        this.id=Main.benzersizIdGetir2(ChatApp.db.grupSohbetiHashMapi,ChatApp.db.bireyselSohbetHashMapi);
          String grupIsmi;
         grupIsmi=Main.scan.next();
-        ChatApp.grupSohbetiHashMapi.put(this.id,this);
+        ChatApp.db.grupSohbetiEkle(this);
         this.grupIsmi=grupIsmi;
         this.grupRolleriMapi.put(kullanici.id,"yonetici");
         this.sohbetUyeleri.put(kullanici.id,kullanici);
@@ -128,6 +128,8 @@ public class GrupSohbeti extends  Sohbet{
         izinYokUyarisi();
     }
 
+
+    @Override
     void sohbetOnizle(Kullanici kullanici){
         this.kullanici=kullanici;
 
@@ -143,13 +145,12 @@ public class GrupSohbeti extends  Sohbet{
                 ""+kullanici.bildirimlerMapi.get(this.id));
 
     }
-
     void sohbeteGir(Kullanici kullanici){
         this.kullanici=kullanici;
         okunduOlarakIsaretle();
 
         kullanici.rolBelirle(grupRolleriMapi.get(kullanici.id));
-        System.out.println(kullanici.rol+"sadljasdja");;
+        System.out.println(kullanici.getRol()+"sadljasdja");;
 
 
 

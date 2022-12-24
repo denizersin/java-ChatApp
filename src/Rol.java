@@ -1,6 +1,11 @@
 public class Rol extends Izinler{
-    String rol;
+   private String rol;
 
+    public String getRol() {
+        return rol;
+    }
+
+    //burasi setRol() olarak dusunulebilir
     void rolBelirle(String rol){
         this.rol=rol;
         //if yonetici ise
