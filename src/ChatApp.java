@@ -18,10 +18,10 @@ public class ChatApp {
 
     ChatApp(){
         db=new Database();
-        uyeOl("ersin","e","1"); //id =0;
-        uyeOl("burak","b","1"); //id =1;
-        uyeOl("ipek","i","1"); //id =2;
-        uyeOl("ahmet","a","1"); //id =3;
+        uyeOl("Ersin","e","1"); //id =0;
+        uyeOl("Burak","b","1"); //id =1;
+        uyeOl("Ipek","i","1"); //id =2;
+        uyeOl("Ahmet","a","1"); //id =3;
 
         girisYapMenusu();
 
@@ -32,7 +32,7 @@ public class ChatApp {
         db.kullaniciEkle(yeniKullanici);
     }
     void girisYapMenusu(){
-        System.out.print("Kullanıcı adı veya ID giriniz : ");
+        System.out.print("Hosgeldiniz! Kullanıcı adı veya ID giriniz : ");
         String kAdiId=Main.scan.next();
         System.out.print("Şifre : ");
         String sifre=Main.scan.next();
@@ -94,8 +94,7 @@ public class ChatApp {
         kullaniciBireyselSohbetler.forEach((key, value) -> {value.sohbetOnizle(kullanici);});
         kullaniciGrupSohbetler.forEach((key, value) -> {value.sohbetOnizle(kullanici);});
         int shobetId=-1;
-        System.out.println("Sohbet ID giriniz : ");
-        System.out.println("Çıkmak için [-1]'i tuşlayınız.");
+        System.out.println("\nÇıkmak için [-1]'i tuşlayınız.");
         shobetId=Main.scan.nextInt();
         if(db.bireyselSohbetHashMapi.containsKey(shobetId)){
             db.bireyselSohbetHashMapi.get(shobetId).sohbeteGir(kullanici);
@@ -127,11 +126,12 @@ public class ChatApp {
          String secim="";
         while (true){
             for (int i = 0; i < 50; ++i) System.out.println();
+            System.out.println("╰─▸ Merhaba," + kullanici.isim+ " Lutfen yapmak istedigin islemi sec.");
 
-            System.out.println("Sohbetleri girmek için [1]'e basınız.");
-            System.out.println("Sohbet oluşturmak için [2]'ye basınız.");
-            System.out.println("Grup oluşturmak için [3]'e basınız.");
-            System.out.println("Tekrar giriş yapmak için [4]'e basınız.");
+            System.out.println("•Sohbetleri gormek için [1]'e basınız.");
+            System.out.println("•Sohbet oluşturmak için [2]'ye basınız.");
+            System.out.println("•Grup oluşturmak için [3]'e basınız.");
+            System.out.println("•Tekrar giriş yapmak için [4]'e basınız.");
             secim=Main.scan.next();
             if(secim.equals("0")){
 
@@ -146,6 +146,7 @@ public class ChatApp {
                 grupSOhbetiOlustur();
             }
             else if(secim.equals("4")){
+                System.out.println("─── Cikis yapildi ──");
                 girisYapMenusu();
             }
             else if(!Main.beklenmeyenDurumSorgula(secim)){

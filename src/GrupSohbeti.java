@@ -30,12 +30,13 @@ public class GrupSohbeti extends Sohbet{
 
 	        int secim=-1; 
 	        while (true){
-	            System.out.println("Çıkmak için [0]'a basınız.");
-	            System.out.println("Üye eklemek için [1]'e basınız.");
-	            System.out.println("Üye silmek için [2]'ye basınız.");
-	            System.out.println("Grup ismini değiştirmek için [3]'e basınız.");
-	            System.out.println("Bir üyeye rol atamak için [4]'e basınız.");
-	            secim=Main.scan.nextInt();
+	            System.out.println("•Üye eklemek için [1]'e basınız.");
+	            System.out.println("•Üye silmek için [2]'ye basınız.");
+	            System.out.println("•Grup ismini değiştirmek için [3]'e basınız.");
+	            System.out.println("•Bir üyeye rol atamak için [4]'e basınız.");
+				System.out.println("•Çıkmak için [0]'a basınız.");
+
+				secim=Main.scan.nextInt();
 
 	            if (secim==1){
 	                uyeEkle();
@@ -145,18 +146,18 @@ public class GrupSohbeti extends Sohbet{
 	        this.kullanici=kullanici;
 
 	        
-	        System.out.print("id:"+this.id+"[");
+	        System.out.print("\n≪Grup sohbet ID:"+this.id+ "≫Grup adi: "+"[");
 	        System.out.print(this.grupIsmi);
 	        if(sonMesajIndex==0){
 	        	System.out.print("] ");
-	            System.out.println("Henüz mesaj yok");
-	        
+	            System.out.println("\n :( Henüz bir mesaj atılmadı.\n • • • • • • • \nMesaj olusturmak veya baska bir islem yapmak icin lutfen sohbet id'si girin.");
 	            return;
 	        }
-	        System.out.print("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik()));
-	        System.out.println(" ----okunmamis mesaj sayisi:" +
-	                ""+kullanici.bildirimlerMapi.get(this.id));
-	         //orijinal kodda burası çalışmıyor
+			System.out.println("\n----okunmamis mesaj sayisi:" +
+					""+kullanici.bildirimlerMapi.get(this.id));
+			//orijinal kodda burası çalışmıyor
+	        System.out.print("\nGelen son mesaj=  "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik()));
+
 
 	    }
 	    void sohbeteGir(Kullanici kullanici){
@@ -164,17 +165,17 @@ public class GrupSohbeti extends Sohbet{
 	        okunduOlarakIsaretle();
 
 	        kullanici.rolBelirle(grupRolleriMapi.get(kullanici.id));
-	        System.out.println(kullanici.getRol()); //orijinal kodda gereksiz yazı var  !!! - Burak
+	        System.out.println("Gruptaki rolunuz = " + kullanici.getRol()); //orijinal kodda gereksiz yazı var  !!! - Burak
 
 
 
 	        int secim;
 	        while (true){
 	            mesajlariListele();
-	            System.out.println("Mesaj göndermek için [1]'e basınız");
-	            System.out.println("Seçenekleri listelemek için [2]'e basınız");
-	            System.out.println("Üyeleri görüntülemek için [3]'e basınız");
-	            System.out.println("Çıkmak için [0]'e basınız");
+	            System.out.println("•Mesaj göndermek için [1]'e basınız.");
+	            System.out.println("•Seçenekleri listelemek için [2]'ye basınız.");
+	            System.out.println("•Üyeleri görüntülemek için [3]'e basınız.");
+	            System.out.println("•Çıkmak için [0]'a basınız.");
 	            secim=Main.scan.nextInt();
 	            if(secim==1) {
 	                String mesaj = "";

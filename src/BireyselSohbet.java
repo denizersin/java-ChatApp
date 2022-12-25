@@ -27,16 +27,17 @@ public class BireyselSohbet extends Sohbet {
     @Override
     void sohbetOnizle(Kullanici kullanici){
         this.kullanici=kullanici;
-        System.out.print("id:"+this.id+"[");
-        sohbetUyeleri.forEach((key, value) -> System.out.print(value.isim+","));
+        System.out.print(" ≪sohbet ID:"+this.id+ "≫ Sohbet uyeleri:" +"[");
+        sohbetUyeleri.forEach((key, value) -> System.out.print(value.isim+"&"));
         System.out.print("]");
         if(sonMesajIndex==0){
-            System.out.println("Henüz bir mesaj atılmadı.");
+            System.out.println("\n :( Henüz bir mesaj atılmadı.\n • • • • • • • \nMesaj olusturmak icin lutfen sohbet id'si girin.");
             return;
         }
-        System.out.print(this.mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+ this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik());
-        System.out.println(" ----Okunmamış mesaj sayısı:" +
+        System.out.println("\n----Okunmamış mesaj sayısı:" +
                 ""+kullanici.bildirimlerMapi.get(this.id));
+        System.out.print("\nGelen son mesaj= "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik()));
+
     }
     void sohbeteGir(Kullanici kullanici){
         this.kullanici=kullanici;

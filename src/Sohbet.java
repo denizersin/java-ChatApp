@@ -21,6 +21,7 @@ public abstract class Sohbet {
 	    abstract void sohbetOnizle(Kullanici kullanici);
 	    abstract void sohbeteGir(Kullanici kullanici);
 
+
 	    void mesajlariListele(){
 	        for (int i = 0; i<sonMesajIndex ; i++) {
 	            String gonderenIsim=mesajlarDizisi[i].gonderenK.isim;
@@ -28,10 +29,11 @@ public abstract class Sohbet {
 	            Boolean iletildiMi=mesajlarDizisi[i].iletildiMi;
 	            Boolean gorulduMu=mesajlarDizisi[i].gorulduMu;
 	            String tip=mesajlarDizisi[i].tip;
-	            System.out.println(gonderenIsim+":"+"~"+tip+" "+icerik+
-	                    " i:"+iletildiMi+" g:"+gorulduMu);
+	            System.out.println(gonderenIsim+":"+"~"+tip+" "+icerik+ "\n" +
+	                    " iletildi:"+iletildiMi+" Goruldu:"+gorulduMu);
 	        }
-	    }
+			System.out.println("• • • • • • •");
+		}
 	    void okunduOlarakIsaretle(){
 	        
 	        int bildirimSayisi=kullanici.bildirimlerMapi.get(this.id)==null?0:kullanici.bildirimlerMapi.get(this.id);
