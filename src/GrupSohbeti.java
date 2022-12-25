@@ -1,181 +1,197 @@
+package chatApp;
+
 import javax.crypto.spec.PSource;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GrupSohbeti extends  Sohbet{
 
-    String grupIsmi;
-    //default olarak grupRolleriMapi.put(yaraticiID,yaratici(Kullanici).rol);
-    HashMap<Integer,String> grupRolleriMapi;
-    HashMap<Integer,Kullanici> kullanicilarMapi=ChatApp.db.kullanicilarMapi;
-    GrupSohbeti(Kullanici kullanici){
-        //kullanici=yonetici
-        super();
-        grupRolleriMapi=new HashMap<Integer,String>();
-        this.id=Main.benzersizIdGetir2(ChatApp.db.grupSohbetiHashMapi,ChatApp.db.bireyselSohbetHashMapi);
-         String grupIsmi;
-        grupIsmi=Main.scan.next();
-        ChatApp.db.grupSohbetiEkle(this);
-        this.grupIsmi=grupIsmi;
-        this.grupRolleriMapi.put(kullanici.id,"yonetici");
-        this.sohbetUyeleri.put(kullanici.id,kullanici);
-    }
-
-
-    void secenekleriListele(){
-
-        int secim=-1;
-        while (true){
-            System.out.println("cikmak icin 0");
-            System.out.println("uye eklemek icin 1");
-            System.out.println("uye silmek icin 2");
-            System.out.println("grup ismi degistir 3");
-            System.out.println("bir uyuyeye rol ata 4");
-            secim=Main.scan.nextInt();
-
-            if (secim==1){
-                uyeEkle();
-            }
-            else if(secim==2){
-                uyeSil();
-            }
-            else if(secim==3){
-                grupIsmiDegistir();
-            }
-            else if(secim==4){
-                rolAta();
-            }
-            else if(secim==0){
-                return;
-            }
-            else {
-                secenekleriListele();
-            }
-        }
+public class GrupSohbeti extends Sohbet{
+	 String grupIsmi;
+	    //default olarak grupRolleriMapi.put(yaraticiID,yaratici(Kullanici).rol);
+	    HashMap<Integer,String> grupRolleriMapi;
+	    HashMap<Integer,Kullanici> kullanicilarMapi=ChatApp.db.kullanicilarMapi;
+	    GrupSohbeti(Kullanici kullanici){
+	        //kullanici=yonetici
+	        super();
+	        grupRolleriMapi=new HashMap<Integer,String>();
+	        this.id=Main.benzersizIdGetir2(ChatApp.db.grupSohbetiHashMapi,ChatApp.db.bireyselSohbetHashMapi);
+	         String grupIsmi;
+	         System.out.print("Lütfen Grup İsmini Belirleyiniz : "); //orijinal kodda syso yok !!! - Burak
+	        grupIsmi=Main.scan.next();
+	        ChatApp.db.grupSohbetiEkle(this);
+	        this.grupIsmi=grupIsmi;
+	        this.grupRolleriMapi.put(kullanici.id,"yonetici");
+	        this.sohbetUyeleri.put(kullanici.id,kullanici);
+	    }
 
 
-    }
-    void uyeEkle(){
-        if(Arrays.asList(kullanici.izinler).contains("uye-ekle")){
-            System.out.println("yapabilir");
-            System.out.println("eklenecek uye id");
-            int kId=Main.scan.nextInt();
-            sohbetUyeleri.put(kId,kullanicilarMapi.get(kId));
-            grupRolleriMapi.put(kId,"normal-uye");
-            return;
-        }
-        izinYokUyarisi();
+	    void secenekleriListele(){
 
-    }
-    void uyeSil(){
-        if(Arrays.asList(kullanici.izinler).contains("uye-sil")){
-            System.out.println("yapabilir");
-            int secim=-1;
-            System.out.print("id gir:");
-            secim=Main.scan.nextInt();
-            if(sohbetUyeleri.containsKey(secim)){
-                sohbetUyeleri.remove(secim);
-            }
-            else {
-                System.out.println("bu kullanici uye degil");
-                uyeSil();
-            }
-            return;
-        }
-        izinYokUyarisi();
-    }
-    void uyeleriGoruntule(){
-        int id;
-        Kullanici k;
-        for (Map.Entry<Integer, Kullanici> set :
-                sohbetUyeleri.entrySet()) {
-            id=set.getKey();
-            k=set.getValue();
-            System.out.println(k.isim+"rol: "+grupRolleriMapi.get(id));
-        }
-    }
-    void izinYokUyarisi(){
-        System.err.println("bu izne sahip degilsin");
-    }
-    void rolAta(){
-        if(Arrays.asList(kullanici.izinler).contains("rol-ata")){
-            System.out.println("yapabilir");
-            int kId=-1;
-            System.out.print("rol atancak k id:");
-            kId=Main.scan.nextInt();
-            if(sohbetUyeleri.containsKey(kId)){
-                String atanacakRol="";
-                System.out.print("atanacak rolu gi (1.yonetici,2.moderator,3.normal-uye");
-                atanacakRol=Main.scan.next();
-                grupRolleriMapi.put(kId,atanacakRol);
-                System.out.println(grupRolleriMapi.get(kId));
-                System.out.println(kId+"idli kisiye "+atanacakRol+"rolu atandi");
-            }
-            else {
-                System.out.println("boyle bir uye yok");
-                rolAta();
-            }
-            return;
-        }
-        izinYokUyarisi();
-    }
-    void grupIsmiDegistir(){
-        if(Arrays.asList(kullanici.izinler).contains("grup-ismi-degistir")){
-            System.out.println("yapabilir");
-            return;
-        }
-        izinYokUyarisi();
-    }
+	        int secim=-1; 
+	        while (true){
+	            System.out.println("Çıkmak için [0]'a basınız.");
+	            System.out.println("Üye eklemek için [1]'e basınız.");
+	            System.out.println("Üye silmek için [2]'ye basınız.");
+	            System.out.println("Grup ismini değiştirmek için [3]'e basınız.");
+	            System.out.println("Bir üyeye rol atamak için [4]'e basınız.");
+	            secim=Main.scan.nextInt();
+
+	            if (secim==1){
+	                uyeEkle();
+	            }
+	            else if(secim==2){
+	                uyeSil();
+	            }
+	            else if(secim==3){
+	                grupIsmiDegistir();
+	            }
+	            else if(secim==4){
+	                rolAta();
+	            }
+	            else if(secim==0){
+	                return;
+	            }
+	            else {
+	                secenekleriListele();
+	            }
+	        }
 
 
-    @Override
-    void sohbetOnizle(Kullanici kullanici){
-        this.kullanici=kullanici;
+	    }
+	    void uyeEkle(){
+	        if(Arrays.asList(kullanici.izinler).contains("uye-ekle")){
+	            System.out.println("[YETKİSİ VAR]"); 
+	            ChatApp.kullanicilariListele(); //orijinal kodda bu kısım yok !!! - Burak
+	            System.out.println("Eklenecek üye ID'sini giriniz: ");
+	            int kId=Main.scan.nextInt();
+	            sohbetUyeleri.put(kId,kullanicilarMapi.get(kId));
+	            grupRolleriMapi.put(kId,"normal-uye");
+	            return;
+	        }
+	        izinYokUyarisi();
 
-        System.out.println("wqeqwe");
-        System.out.print("id:"+this.id+"[");
-        System.out.print(this.grupIsmi);
-        if(sonMesajIndex==0){
-            System.out.println("mesaj yok");
-            return;
-        }
-        System.out.println("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik()));
-        System.out.println(" ----okunmamis mesaj sayisi:" +
-                ""+kullanici.bildirimlerMapi.get(this.id));
+	    }
+	    void uyeSil(){
+	        if(Arrays.asList(kullanici.izinler).contains("uye-sil")){
+	            System.out.println("[YETKİSİ VAR]");
+	            int secim=-1;
+	            uyeleriGoruntule(); //orijinal kodda bu kısım yok !!! - Burak
+	            System.out.print("Silinecek üyenin ID'sini giriniz: ");
+	            secim=Main.scan.nextInt();
+	            if(sohbetUyeleri.containsKey(secim)){
+	                sohbetUyeleri.remove(secim);
+	            }
+	            else {
+	                System.out.println("Böyle bir üye bulunamadı.");
+	                uyeSil();
+	            }
+	            return;
+	        }
+	        izinYokUyarisi();
+	    }
+	    void uyeleriGoruntule(){
+	        int id;
+	        Kullanici k;
+	        for (Map.Entry<Integer, Kullanici> set :
+	                sohbetUyeleri.entrySet()) {
+	            id=set.getKey();
+	            k=set.getValue();
+	            System.out.println("ID : "+k.id+" "+k.isim+" rol: "+grupRolleriMapi.get(id)); // orijinal kodda rol'ün başında boşluk yok !!! - Burak
+	        }																	//orijinal kodda k.id yok !!! - Burak
+	    }
+	    void izinYokUyarisi(){
+	        System.err.println("[BUNA YETKİN YOK]");
+	    }
+	    void rolAta(){
+	        if(Arrays.asList(kullanici.izinler).contains("rol-ata")){
+	            System.out.println("[YETKİN VAR]");
+	            int kId=-1;
+	            System.out.println("Rolün atanacağı kullanıcının ID'si : ");
+	            uyeleriGoruntule(); //bu kısım yoktu !!! - Burak
+	            kId=Main.scan.nextInt();
+	            if(sohbetUyeleri.containsKey(kId)){
+	                String atanacakRol="";
+	                System.out.println("[yonetici]   [moderator]   [normal-uye]");
+	                System.out.println("Atanacak rolü yazıyla giriniz : ");
+	                atanacakRol=Main.scan.next();
+	                grupRolleriMapi.put(kId,atanacakRol);
+	                System.out.println(grupRolleriMapi.get(kId));
+	                System.out.println(kId+" ID'li kisiye "+atanacakRol+"rolü atandı."); //düzenlendi - Burak
+	            }
+	            else {
+	                System.out.println("Kullanıcı bulunamadı.");
+	                rolAta();
+	            }
+	            return;
+	        }
+	        izinYokUyarisi();
+	    }
+	    void grupIsmiDegistir(){
+	        if(Arrays.asList(kullanici.izinler).contains("grup-ismi-degistir")){
+	            String yeniGrupIsmi;
+	        	System.out.println("[YETKİN VAR]");
+	            System.out.println("Lütfen yeni grup ismini giriniz : ");
+	            yeniGrupIsmi = Main.scan.next();
+	            this.grupIsmi = yeniGrupIsmi;//orijinal kodda bu kısım yok !!! - Burak
+	            return;
+	        }
+	        izinYokUyarisi();
+	    }
 
-    }
-    void sohbeteGir(Kullanici kullanici){
-        this.kullanici=kullanici;
-        okunduOlarakIsaretle();
 
-        kullanici.rolBelirle(grupRolleriMapi.get(kullanici.id));
-        System.out.println(kullanici.getRol()+"sadljasdja");;
+	    @Override
+	    void sohbetOnizle(Kullanici kullanici){
+	        this.kullanici=kullanici;
+
+	        
+	        System.out.print("id:"+this.id+"[");
+	        System.out.print(this.grupIsmi);
+	        if(sonMesajIndex==0){
+	        	System.out.print("] ");
+	            System.out.println("Henüz mesaj yok");
+	        
+	            return;
+	        }
+	        System.out.print("] "+mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+(this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik()));
+	        System.out.println(" ----okunmamis mesaj sayisi:" +
+	                ""+kullanici.bildirimlerMapi.get(this.id));
+	         //orijinal kodda burası çalışmıyor
+
+	    }
+	    void sohbeteGir(Kullanici kullanici){
+	        this.kullanici=kullanici;
+	        okunduOlarakIsaretle();
+
+	        kullanici.rolBelirle(grupRolleriMapi.get(kullanici.id));
+	        System.out.println(kullanici.getRol()); //orijinal kodda gereksiz yazı var  !!! - Burak
 
 
 
-        int secim;
-        while (true){
-            mesajlariListele();
-            System.out.println("mesaj gondermek icin 1");
-            System.out.println("secenekleri gormek icin 2");
-            System.out.println("uyeleri gormek icin 3");
-            System.out.println("cikmak 0");
-            secim=Main.scan.nextInt();
-            if(secim==1) {
-                String mesaj = "";
-                int secim2 = 0;
-                gondermeMenusu();
-            }
-            else if(secim==2){
-                secenekleriListele();
-            }
-            else if(secim==3){
-                uyeleriGoruntule();
-            }
-            else  if(secim==0){
-                return;
-            }
-        }
-    }
-}
+	        int secim;
+	        while (true){
+	            mesajlariListele();
+	            System.out.println("Mesaj göndermek için [1]'e basınız");
+	            System.out.println("Seçenekleri listelemek için [2]'e basınız");
+	            System.out.println("Üyeleri görüntülemek için [3]'e basınız");
+	            System.out.println("Çıkmak için [0]'e basınız");
+	            secim=Main.scan.nextInt();
+	            if(secim==1) {
+	                String mesaj = "";
+	                int secim2 = 0;
+	                gondermeMenusu();
+	            }
+	            else if(secim==2){
+	                secenekleriListele();
+	            }
+	            else if(secim==3){
+	                uyeleriGoruntule();
+	            }
+	            else  if(secim==0){
+	                return;
+	            }
+	        }
+	    }
+	}
+
+

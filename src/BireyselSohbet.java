@@ -1,16 +1,18 @@
+package chatApp;
+
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class BireyselSohbet extends Sohbet{
-    BireyselSohbet(Kullanici k1){
+public class BireyselSohbet extends Sohbet {
+	BireyselSohbet(Kullanici k1){
         super();
         while (true) {
             ChatApp.kullanicilariListele();
-            System.out.print("olusturulacak sohbet id'si gir:");
+            System.out.print("Sohbet oluşturmak istediğiniz kullanıcının ID'sini giriniz.");
             int ikinciKullaniciId = -1;
             ikinciKullaniciId = Main.scan.nextInt();
             if (!ChatApp.db.kullaniciSorguluaById(ikinciKullaniciId)) {
-                System.out.println("boyle bir id yok");
+                System.out.println("Kullanıcı Bulunamadı");
                 continue;
             }
             this.id = Main.benzersizIdGetir2(ChatApp.db.bireyselSohbetHashMapi, ChatApp.db.grupSohbetiHashMapi);
@@ -29,11 +31,11 @@ public class BireyselSohbet extends Sohbet{
         sohbetUyeleri.forEach((key, value) -> System.out.print(value.isim+","));
         System.out.print("]");
         if(sonMesajIndex==0){
-            System.out.println("henuz bir mesaj atilmadi");
+            System.out.println("Henüz bir mesaj atılmadı.");
             return;
         }
         System.out.print(this.mesajlarDizisi[sonMesajIndex-1].gonderenK.isim+": "+ this.mesajlarDizisi[this.sonMesajIndex-1].getIcerik());
-        System.out.println(" ----okunmamis mesaj sayisi:" +
+        System.out.println(" ----Okunmamış mesaj sayısı:" +
                 ""+kullanici.bildirimlerMapi.get(this.id));
     }
     void sohbeteGir(Kullanici kullanici){
@@ -47,3 +49,5 @@ public class BireyselSohbet extends Sohbet{
 
 
 }
+
+
