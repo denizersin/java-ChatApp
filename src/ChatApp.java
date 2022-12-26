@@ -66,7 +66,7 @@ public class ChatApp {
                 db.kullanicilarMapi.entrySet()) {
                 int id=set.getKey();
                 Kullanici k=set.getValue();
-                if(k.getKullaniciAdi().equals(kAdi)&&k.getSifre().equals(sifre)){
+                if(k.getKullaniciAdi().equalsIgnoreCase(kAdi)&&k.getSifre().equals(sifre)){
                     //k giris yapar
                     kullanici=k;
                     uygulamaDongusu();

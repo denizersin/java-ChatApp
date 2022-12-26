@@ -11,11 +11,12 @@ public class Rol extends Izınler{
 	    void rolBelirle(String rol){
 	        this.rol=rol;
 	        //if yonetici ise
-	        if(rol.equals("yonetici")) {
+
+	        if(rol.equalsIgnoreCase("yonetici")) {
 	            String[] izinlerArr = {"uye-ekle","grup-ismi-degistir","uye-sil","rol-ata"};
 	            this.IzinlerEkle(izinlerArr);
 	        }
-	        if(rol.equals("moderator")){
+	        if(rol.equalsIgnoreCase("moderator")){
 	            String[] izinlerArr = {"uye-ekle","uye-sil"};
 	            this.IzinlerEkle(izinlerArr);
 	        }
