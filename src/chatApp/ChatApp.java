@@ -32,7 +32,7 @@ public class ChatApp {
         db.kullaniciEkle(yeniKullanici);
     }
     void girisYapMenusu(){
-        System.out.print("Hosgeldiniz! Kullanıcı adı veya ID giriniz : ");
+        System.out.print("cKullanıcı adı veya ID giriniz : ");
         String kAdiId=Main.scan.next();
         System.out.print("Şifre : ");
         String sifre=Main.scan.next();
