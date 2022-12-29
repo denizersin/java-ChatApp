@@ -17,6 +17,7 @@ public class ChatApp {
    private Kullanici kullanici;
 
     ChatApp(){
+
         db=new Database();
         uyeOl("Ersin","e","1"); //id =0;
         uyeOl("Burak","b","1"); //id =1;
@@ -39,6 +40,7 @@ public class ChatApp {
 
         Pattern p = Pattern.compile("([0-9])");
         Matcher m = p.matcher(kAdiId);
+
         if(!m.find()){ //sayi yoksa
             girisYap(kAdiId,sifre);
             //kAdi
@@ -83,6 +85,7 @@ public class ChatApp {
         new GrupSohbeti(kullanici); //kullanici=yonetici
     }
     void kullaniciSohbetleriGoster(){
+
         Map<Integer, BireyselSohbet> kullaniciBireyselSohbetler = db.bireyselSohbetHashMapi.entrySet().stream()
                 .filter(x -> x.getValue().sohbetUyeleri.containsKey(kullanici.id))
                 .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
@@ -91,11 +94,21 @@ public class ChatApp {
                 .filter(x -> x.getValue().sohbetUyeleri.containsKey(kullanici.id))
                 .collect(Collectors.toMap(x -> x.getKey(), x -> x.getValue()));
 
+
         kullaniciBireyselSohbetler.forEach((key, value) -> {value.sohbetOnizle(kullanici);});
+
         kullaniciGrupSohbetler.forEach((key, value) -> {value.sohbetOnizle(kullanici);});
-        int shobetId=-1;
+
+
+        System.out.print("Girmek istediginiz sohbetin ID'sini giriniz.");
         System.out.println("\nÇıkmak için [-1]'i tuşlayınız.");
-        shobetId=Main.scan.nextInt();
+        String secim="";
+        secim=Main.scan.next();
+        if(!Main.beklenmeyenDurumSorgula(secim)){
+            kullaniciSohbetleriGoster();
+            return;
+        }
+        int shobetId=Integer.parseInt(secim);
         if(db.bireyselSohbetHashMapi.containsKey(shobetId)){
             db.bireyselSohbetHashMapi.get(shobetId).sohbeteGir(kullanici);
         }
@@ -105,11 +118,7 @@ public class ChatApp {
         else if(shobetId==-1){
             return;
         }
-        else {
-            System.out.println("Lütfen geçerli ID giriniz.");
-            //basa don
-            kullaniciSohbetleriGoster();
-        }
+
 
 
     }

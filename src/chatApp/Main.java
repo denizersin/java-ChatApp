@@ -25,7 +25,7 @@ public class Main {
 	            return true;
 	        }
 	        catch (Exception e){
-	            System.out.println("Lütfen sayı giriniz.");
+	            System.err.println("Lütfen sayı giriniz.");
 	            return false;
 	        }
 	    }
@@ -33,8 +33,6 @@ public class Main {
 	    //bireysel ve grup sohbet idleri cakismasin diye yazilidi.
 	    public static int benzersizIdGetir2(Map map1,Map map2){
 	        for (int i=0;i<99999;i++){
-	            System.out.println(map1.containsKey(i));
-	            System.out.println(map2.containsKey(i));
 	            if(!map1.containsKey(i)&&!map2.containsKey(i)){
 	                System.out.println(i);
 	                return i;
@@ -42,10 +40,17 @@ public class Main {
 	        }
 	        return 0;
 	    }
+		public static  void ekraniTemizle(){
+			for (int i = 0; i < 50; ++i) System.out.println();
+		}
 	    static Scanner scan=new Scanner(System.in);
 	    public static void main(String[] args) {
-	        ChatApp uygulama=new ChatApp();
-	    }
+
+			ChatApp uygulama =new ChatApp();
 
 
-}
+
+
+
+
+}}

@@ -13,6 +13,7 @@ public class GrupSohbeti extends Sohbet{
 	    HashMap<Integer,Kullanici> kullanicilarMapi=ChatApp.db.kullanicilarMapi;
 	    GrupSohbeti(Kullanici kullanici){
 	        //kullanici=yonetici
+			//grup sohbeti yaratilma islemi
 	        super();
 	        grupRolleriMapi=new HashMap<Integer,String>();
 	        this.id=Main.benzersizIdGetir2(ChatApp.db.grupSohbetiHashMapi,ChatApp.db.bireyselSohbetHashMapi);
@@ -117,7 +118,6 @@ public class GrupSohbeti extends Sohbet{
 	                System.out.println("Atanacak rolü yazıyla giriniz : ");
 	                atanacakRol=Main.scan.next();
 	                grupRolleriMapi.put(kId,atanacakRol);
-	                System.out.println(grupRolleriMapi.get(kId));
 	                System.out.println(kId+" ID'li kisiye "+atanacakRol+"rolü atandı."); //düzenlendi - Burak
 	            }
 	            else {
@@ -153,6 +153,7 @@ public class GrupSohbeti extends Sohbet{
 	            System.out.println("\n :( Henüz bir mesaj atılmadı.\n • • • • • • • \nMesaj olusturmak veya baska bir islem yapmak icin lutfen sohbet id'si girin.");
 	            return;
 	        }
+
 			System.out.println("\n----okunmamis mesaj sayisi:" +
 					""+kullanici.bildirimlerMapi.get(this.id));
 			//orijinal kodda burası çalışmıyor
@@ -169,28 +170,31 @@ public class GrupSohbeti extends Sohbet{
 
 
 
-	        int secim;
+	        String secim;
 	        while (true){
 	            mesajlariListele();
 	            System.out.println("•Mesaj göndermek için [1]'e basınız.");
 	            System.out.println("•Seçenekleri listelemek için [2]'ye basınız.");
 	            System.out.println("•Üyeleri görüntülemek için [3]'e basınız.");
 	            System.out.println("•Çıkmak için [0]'a basınız.");
-	            secim=Main.scan.nextInt();
-	            if(secim==1) {
+	            secim=Main.scan.next();
+	            if(secim.equals("1")) {
 	                String mesaj = "";
 	                int secim2 = 0;
 	                gondermeMenusu();
 	            }
-	            else if(secim==2){
+	            else if(secim.equals("2")){
 	                secenekleriListele();
 	            }
-	            else if(secim==3){
+	            else if(secim.equals("3")){
 	                uyeleriGoruntule();
 	            }
-	            else  if(secim==0){
+	            else  if(secim.equals("0")){
 	                return;
 	            }
+				else if(Main.beklenmeyenDurumSorgula(secim)){
+
+				}
 	        }
 	    }
 	}

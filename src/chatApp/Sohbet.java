@@ -57,7 +57,6 @@ public abstract class Sohbet {
 	            if(k.id!=kullanici.id){
 	                guncelBildirimSayisi= k.bildirimlerMapi.get(this.id)==null?0:k.bildirimlerMapi.get(this.id);
 	                k.bildirimlerMapi.put(this.id,guncelBildirimSayisi+1);
-	                System.out.println("bildirim set edildi"+k.id+""+kullanici.id+k.bildirimlerMapi.get(this.id));
 	                System.out.println(k.bildirimlerMapi.get(this.id));
 	            }
 	        }
@@ -66,7 +65,7 @@ public abstract class Sohbet {
 	        String secim="";
 
 	        while (true) {
-	            for (int i = 0; i < 50; ++i) System.out.println();
+				Main.ekraniTemizle();
 	            this.mesajlariListele();
 	            System.out.println("Metin göndermek için [1]'e basınız.");
 	            System.out.println("Resim göndermek için [2]'e basınız.");
@@ -93,10 +92,10 @@ public abstract class Sohbet {
 	            }
 	            else if (secim.equals("0")) {
 	                return;
-	            } else {
+	            }
+				else if(Main.beklenmeyenDurumSorgula(secim)) {
 	                System.out.println("Hatalı giriş yaptınız.");
 	            }
 	        }
 	    }
-
 }

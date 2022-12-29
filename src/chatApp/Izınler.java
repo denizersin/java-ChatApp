@@ -1,7 +1,9 @@
 package chatApp;
 
 public class Izınler {
-	 String izinler[]=new String[20]; // 'grup-adi-degistirebilir-,'uye-ekleyebilir-,-cikarabilir-,
+
+		//mevcut sahip oldugu izinleri tutan dizi
+		String izinler[]=new String[20]; // 'grup-adi-degistirebilir-,'uye-ekleyebilir-,-cikarabilir-,
 	    void IzinlerEkle(String[] permissions){
 	        this.izinler=permissions;
 	    }
